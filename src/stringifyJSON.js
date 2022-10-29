@@ -34,9 +34,13 @@ var stringifyJSON = function(obj) {
     } else {
       var result = '';
       _.each(obj, function(value, key, obj) {
-        result = result.concat(stringifyJSON(key) + ':' + stringifyJSON(value));
+        if (key === 'functions' || key === 'undefined') {
+          return '{}';
+        }
+        result = result.concat(',', stringifyJSON(key) + ':' + stringifyJSON(value));
       });
     }
-    return '{' + result + '}';
+    var returnSlice = result.slice(1);
+    return '{' + returnSlice + '}';
   }
 };
